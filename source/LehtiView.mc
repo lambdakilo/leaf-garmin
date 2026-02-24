@@ -30,6 +30,14 @@ class LehtiView extends WatchUi.WatchFace {
 
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
+
+        var width = dc.getWidth();
+        var height = dc.getHeight();
+        dc.setColor(0xeff809, Graphics.COLOR_TRANSPARENT);
+        dc.fillCircle(width / 2, height * 0.1, 7);
+        dc.fillCircle(width * 0.9, height / 2, 7);
+        dc.fillCircle(width / 2, height * 0.9, 7);
+        dc.fillCircle(width * 0.1, height / 2, 7);
     }
 
     // Called when this View is removed from the screen. Save the
