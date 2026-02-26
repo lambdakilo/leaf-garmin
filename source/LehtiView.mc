@@ -5,7 +5,12 @@ import Toybox.WatchUi;
 
 class LehtiView extends WatchUi.WatchFace {
 
+    private var _leaf as BitmapResource;
+    private var _droplet as BitmapResource;
+
     function initialize() {
+        _leaf = Application.loadResource( Rez.Drawables.id_leaf ) as BitmapResource;
+        _droplet = Application.loadResource( Rez.Drawables.id_droplet ) as BitmapResource;
         WatchFace.initialize();
     }
 
@@ -33,11 +38,15 @@ class LehtiView extends WatchUi.WatchFace {
 
         var width = dc.getWidth();
         var height = dc.getHeight();
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        dc.fillRectangle(0, 0, width, height);
         dc.setColor(0xeff809, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(width / 2, height * 0.1, 7);
         dc.fillCircle(width * 0.9, height / 2, 7);
         dc.fillCircle(width / 2, height * 0.9, 7);
         dc.fillCircle(width * 0.1, height / 2, 7);
+        dc.drawBitmap( width * 0.1, width * 0.1, _leaf);
+        dc.drawBitmap( 50, 50, _droplet);
     }
 
     // Called when this View is removed from the screen. Save the
