@@ -27,26 +27,28 @@ class LehtiView extends WatchUi.WatchFace {
 
     // Update the view
     function onUpdate(dc as Dc) as Void {
-        // Get and show the current time
         var clockTime = System.getClockTime();
-        var timeString = Lang.format("$1$:$2$", [clockTime.hour, clockTime.min.format("%02d")]);
-        var view = View.findDrawableById("TimeLabel") as Text;
-        view.setText(timeString);
-
-        // Call the parent onUpdate function to redraw the layout
-        View.onUpdate(dc);
-
         var width = dc.getWidth();
         var height = dc.getHeight();
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.fillRectangle(0, 0, width, height);
+
         dc.setColor(0xeff809, Graphics.COLOR_TRANSPARENT);
-        dc.fillCircle(width / 2, height * 0.1, 7);
-        dc.fillCircle(width * 0.9, height / 2, 7);
-        dc.fillCircle(width / 2, height * 0.9, 7);
-        dc.fillCircle(width * 0.1, height / 2, 7);
+        dc.fillCircle(width / 2, height * 0.1, height * 0.05);
+        dc.fillCircle(width * 0.9, height / 2, height * 0.05);
+        dc.fillCircle(width / 2, height * 0.9, height * 0.05);
+        dc.fillCircle(width * 0.1, height / 2, height * 0.05);
+
+        var angle = (clockTime.sec / 60.0) * Math.PI * 2 - (Math.PI / 2.0);
+        var radius = width * 0.3;
+        var centerX = width / 2;
+        var centerY = height / 2;
+        var dropletX = centerX + (radius * Math.cos(angle));
+        var dropletY = centerY + (radius * Math.sin(angle));
+        var offsetX = _droplet.getWidth() / 2;
+        var offsetY = _droplet.getHeight() / 2;
+        dc.drawBitmap(dropletX - offsetX, dropletY - offsetY, _droplet);
         dc.drawBitmap( width * 0.1, width * 0.1, _leaf);
-        dc.drawBitmap( 50, 50, _droplet);
     }
 
     // Called when this View is removed from the screen. Save the
