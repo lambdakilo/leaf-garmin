@@ -11,6 +11,7 @@ class LehtiView extends WatchUi.WatchFace {
     private var _six as BitmapResource;
     private var _nine as BitmapResource;
     private var _twelve as BitmapResource;
+    private var isAwake as Boolean = true;
 
     function initialize() {
         _leaf = Application.loadResource( Rez.Drawables.id_leaf ) as BitmapResource;
@@ -40,11 +41,17 @@ class LehtiView extends WatchUi.WatchFace {
         var height = dc.getHeight();
         var centerX = width / 2.0;
         var centerY = height / 2.0;
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.fillRectangle(0, 0, width, height);
-
         var ballOffsetX = 17; 
         var ballOffsetY = 17;
+
+        if (isAwake) {
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+            dc.fillRectangle(0, 0, width, height);
+        } else {
+            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+            dc.clear();
+        }
+
         dc.drawBitmap((width * 0.9) - ballOffsetX, centerY - ballOffsetY, _three);
         dc.drawBitmap(centerX - ballOffsetX, (height * 0.9) - ballOffsetY, _six);
         dc.drawBitmap((width * 0.1) - ballOffsetX, centerY - ballOffsetY, _nine);
@@ -84,10 +91,14 @@ class LehtiView extends WatchUi.WatchFace {
 
     // The user has just looked at their watch. Timers and animations may be started here.
     function onExitSleep() as Void {
+        isAwake = true;
+        WatchUi.requestUpdate();
     }
 
     // Terminate any active timers and prepare for slow updates.
     function onEnterSleep() as Void {
+        isAwake = false;
+        WatchUi.requestUpdate();
     }
 
 }
