@@ -71,8 +71,7 @@ class LehtiView extends WatchUi.WatchFace {
             :transform => transform,
             :filterMode => Graphics.FILTER_MODE_BILINEAR 
         };
-        dc.drawBitmap2(centerX - leafCenterX, centerY - leafCenterY, _leaf, options);
-
+        dc.drawBitmap2(0, 0, _leaf, options);
 
         var minAngle = ((clockTime.min + (clockTime.sec / 60.0)) / 60.0) * Math.PI * 2 - (Math.PI / 2.0);
         var minRadius = width * 0.3;
@@ -100,5 +99,4 @@ class LehtiView extends WatchUi.WatchFace {
         isAwake = false;
         WatchUi.requestUpdate();
     }
-
 }
