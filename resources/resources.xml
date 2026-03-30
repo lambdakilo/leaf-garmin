@@ -5,4 +5,5 @@
     <bitmap id="id_six" filename="images/six.png" automaticPalette="false" />
     <bitmap id="id_nine" filename="images/nine.png" automaticPalette="false" />
     <bitmap id="id_twelve" filename="images/twelve.png" automaticPalette="false" />
+    <bitmap id="id_caterpillar" filename="images/caterpillar.png" automaticPalette="false" />
 </resources>

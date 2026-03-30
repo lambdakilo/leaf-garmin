@@ -2,11 +2,13 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.System;
 import Toybox.WatchUi;
+import Toybox.Math;
 
 class LehtiView extends WatchUi.WatchFace {
 
     private var _leaf as BitmapResource;
     private var _droplet as BitmapResource;
+    private var _caterpillar as BitmapResource;
     private var _three as BitmapResource;
     private var _six as BitmapResource;
     private var _nine as BitmapResource;
@@ -16,6 +18,7 @@ class LehtiView extends WatchUi.WatchFace {
     function initialize() {
         _leaf = Application.loadResource( Rez.Drawables.id_leaf ) as BitmapResource;
         _droplet = Application.loadResource( Rez.Drawables.id_droplet ) as BitmapResource;
+        _caterpillar = Application.loadResource( Rez.Drawables.id_caterpillar ) as BitmapResource;
         _three = Application.loadResource( Rez.Drawables.id_three ) as BitmapResource;
         _six = Application.loadResource( Rez.Drawables.id_six ) as BitmapResource;
         _nine = Application.loadResource( Rez.Drawables.id_nine ) as BitmapResource;
@@ -77,14 +80,32 @@ class LehtiView extends WatchUi.WatchFace {
         var minRadius = width * 0.3;
         var dropletX = centerX + (minRadius * Math.cos(minAngle));
         var dropletY = centerY + (minRadius * Math.sin(minAngle));
-        var dropOffsetX = _droplet.getWidth() / 2;
-        var dropOffsetY = _droplet.getHeight() / 2;
+        var dropOffsetX = _droplet.getWidth() / 2.0;
+        var dropOffsetY = _droplet.getHeight() / 2.0;
         dc.drawBitmap(dropletX - dropOffsetX, dropletY - dropOffsetY, _droplet);
+
+        if (isAwake) {
+            var secAngle = (clockTime.sec / 60.0) * Math.PI * 2 - (Math.PI / 2.0);
+            var secRadius = width * 0.27; 
+            var caterpillarX = centerX + (secRadius * Math.cos(secAngle));
+            var caterpillarY = centerY + (secRadius * Math.sin(secAngle));
+            var catWidth = _caterpillar.getWidth();
+            var catHeight = _caterpillar.getHeight();
+            var catCenterX = catWidth / 2.0;
+            var catCenterY = catHeight / 2.0;
+            var catTransform = new Graphics.AffineTransform();
+            catTransform.setToTranslation(caterpillarX, caterpillarY);
+            var catRotationAngle = secAngle + (Math.PI / 2.0); 
+            catTransform.rotate(catRotationAngle);
+            catTransform.translate(-catCenterX, -catCenterY);
+            var catOptions = {
+                :transform => catTransform,
+                :filterMode => Graphics.FILTER_MODE_BILINEAR 
+            };
+            dc.drawBitmap2(0, 0, _caterpillar, catOptions);
+        }
     }
 
-    // Called when this View is removed from the screen. Save the
-    // state of this View here. This includes freeing resources from
-    // memory.
     function onHide() as Void {
     }
 
